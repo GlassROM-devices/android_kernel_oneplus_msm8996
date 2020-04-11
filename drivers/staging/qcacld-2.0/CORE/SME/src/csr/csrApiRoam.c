@@ -16916,7 +16916,8 @@ eHalStatus csrRoamOpenSession(tpAniSirGlobal pMac,
             break;
         }
     }
-    if( pMac->sme.max_intf_count == i )
+    if ((pMac->sme.max_intf_count == i) ||
+        (*pbSessionId == CSR_SESSION_ID_INVALID))
     {
         //No session is available
         smsLog(pMac, LOGE,
@@ -18065,6 +18066,8 @@ eHalStatus csrGetStatistics(tpAniSirGlobal pMac, eCsrStatsRequesterType requeste
    tANI_BOOLEAN insertInClientList = FALSE;
    VOS_STATUS vosStatus;
    WLANTL_TRANSFER_STA_TYPE *pTlStats;
+
+   memset(&staEntry, 0, sizeof(staEntry));
 
    if( csrIsAllSessionDisconnected(pMac) )
    {
